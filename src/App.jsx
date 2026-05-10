@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
 import useAuthStore from "./store/authStore";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -28,6 +29,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
+
+      <Toaster position="top-right" />
 
       <Routes>
         <Route path="/" element={<HomePage />} />

@@ -9,6 +9,7 @@ import {
   Globe,
   MessageCircleHeart,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 import api from "../../api/axios";
 import useAuthStore from "../../store/authStore";
@@ -106,8 +107,12 @@ const ProfilePage = () => {
       );
 
       setUser(res.data);
+      toast.success("Profile updated successfully");
     } catch (error) {
       console.log(error);
+      toast.error(
+        error?.response?.data?.message || "Something went wrong"
+      )
     } finally {
       setSaving(false);
     }
