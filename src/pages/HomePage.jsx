@@ -180,38 +180,75 @@ const HomePage = () => {
             </div>
           </form>
 
-          <div className="flex flex-wrap gap-3 mt-6">
-            <button
-              onClick={() =>
-                handleCategoryFilter("")
-              }
-              className={`px-5 h-11 rounded-2xl text-sm font-medium transition ${
-                filters.category === ""
-                  ? "bg-violet-700 text-white shadow-lg shadow-violet-200"
-                  : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
-              }`}
-            >
-              All services
-            </button>
-
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() =>
+          {/* CATEGORY FILTERS */}
+          <div className="mt-6">
+            {/* MOBILE DROPDOWN */}
+            <div className="sm:hidden">
+              <select
+                value={filters.category}
+                onChange={(e) =>
                   handleCategoryFilter(
-                    category.slug
+                    e.target.value
                   )
                 }
-                className={`px-5 h-11 rounded-2xl text-sm font-medium whitespace-nowrap transition ${
+                className="w-full h-12 px-4 rounded-2xl border border-gray-200 bg-white text-sm font-medium outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-100"
+              >
+                <option value="">
+                  All services
+                </option>
+
+                {categories.map(
+                  (category) => (
+                    <option
+                      key={category.id}
+                      value={
+                        category.slug
+                      }
+                    >
+                      {category.name}
+                    </option>
+                  )
+                )}
+              </select>
+            </div>
+
+            {/* DESKTOP PILLS */}
+            <div className="hidden sm:flex flex-wrap gap-3">
+              <button
+                onClick={() =>
+                  handleCategoryFilter("")
+                }
+                className={`px-5 h-11 rounded-2xl text-sm font-medium transition ${
                   filters.category ===
-                  category.slug
+                  ""
                     ? "bg-violet-700 text-white shadow-lg shadow-violet-200"
                     : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
                 }`}
               >
-                {category.name}
+                All services
               </button>
-            ))}
+
+              {categories.map(
+                (category) => (
+                  <button
+                    key={category.id}
+                    onClick={() =>
+                      handleCategoryFilter(
+                        category.slug
+                      )
+                    }
+                    className={`px-5 h-11 rounded-2xl text-sm font-medium whitespace-nowrap transition ${
+                      filters.category ===
+                      category.slug
+                        ? "bg-violet-700 text-white shadow-lg shadow-violet-200"
+                        : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    {category.name}
+                  </button>
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -224,7 +261,8 @@ const HomePage = () => {
             </h2>
 
             <p className="text-sm text-gray-500 mt-1">
-              {services.length} services found
+              {services.length} services
+              found
             </p>
           </div>
         </div>
@@ -290,15 +328,25 @@ const HomePage = () => {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-1.5 bg-yellow-50 text-yellow-700 px-3 py-1.5 rounded-xl text-sm font-medium">
+                  <div className="flex items-center gap-2 bg-yellow-50 text-yellow-700 px-3 py-1.5 rounded-xl text-sm font-medium">
                     <Star
                       size={15}
                       className="fill-yellow-400 text-yellow-400"
                     />
 
                     <span>
-                      {service.average_rating ||
-                        "New"}
+                      {Number(
+                        service.average_rating
+                      ) > 0
+                        ? service.average_rating
+                        : "New"}
+                    </span>
+
+                    <span className="text-yellow-600/70">
+                      (
+                      {service.total_reviews ||
+                        0}
+                      )
                     </span>
                   </div>
                 </div>
