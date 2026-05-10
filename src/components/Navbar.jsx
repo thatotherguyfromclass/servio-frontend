@@ -6,6 +6,8 @@ import {
   LogOut,
   User,
   BriefcaseBusiness,
+  LogIn,
+  UserPlus,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthStore from "../store/authStore";
@@ -25,6 +27,8 @@ const Navbar = () => {
   return (
     <nav className="w-full border-b border-gray-200 bg-white sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-5 h-18 flex items-center justify-between">
+        
+        {/* LOGO */}
         <Link to="/" className="flex items-center gap-3">
           <div className="w-11 h-11 rounded-2xl bg-linear-to-br from-violet-700 to-fuchsia-500 flex items-center justify-center shadow-md">
             <BriefcaseBusiness size={20} className="text-white" />
@@ -40,8 +44,11 @@ const Navbar = () => {
           </div>
         </Link>
 
-        <div className="hidden md:flex items-center gap-4">
-          {isAuthenticated && (
+        {/* DESKTOP MENU */}
+        <div className="hidden md:flex items-center gap-3">
+
+          {/* AUTHENTICATED */}
+          {isAuthenticated ? (
             <>
               <Link
                 to="/dashboard/profile"
@@ -67,18 +74,43 @@ const Navbar = () => {
                 Logout
               </button>
             </>
+          ) : (
+            /* NOT AUTHENTICATED */
+            <>
+              <Link
+                to="/login"
+                className="flex items-center gap-2 px-4 py-2 rounded-2xl hover:bg-gray-100 transition"
+              >
+                <LogIn size={18} />
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-violet-700 text-white hover:bg-violet-800 transition"
+              >
+                <UserPlus size={18} />
+                Sign Up
+              </Link>
+            </>
           )}
         </div>
 
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden">
+        {/* MOBILE BUTTON */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden"
+        >
           {mobileOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
+      {/* MOBILE MENU */}
       {mobileOpen && (
         <div className="md:hidden border-t border-gray-200 px-5 py-5 bg-white">
           <div className="flex flex-col gap-3">
-            {isAuthenticated && (
+
+            {isAuthenticated ? (
               <>
                 <Link
                   to="/dashboard/profile"
@@ -103,6 +135,24 @@ const Navbar = () => {
                   <LogOut size={18} />
                   Logout
                 </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="flex items-center gap-2 px-4 py-3 rounded-2xl hover:bg-gray-100"
+                >
+                  <LogIn size={18} />
+                  Login
+                </Link>
+
+                <Link
+                  to="/register"
+                  className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-violet-700 text-white"
+                >
+                  <UserPlus size={18} />
+                  Sign Up
+                </Link>
               </>
             )}
           </div>
